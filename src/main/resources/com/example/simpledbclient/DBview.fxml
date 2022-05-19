@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.collections.FXCollections?>
+<FlowPane prefHeight="350.0" prefWidth="560.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.simpledbclient.DBController">
+    <children>
+        <TextField fx:id="textField" prefHeight="100.0" prefWidth="416.0">
+            <FlowPane.margin>
+               <Insets />
+            </FlowPane.margin>
+        </TextField>
+        <Button fx:id="button" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onbuttonClick" text="Go">
+         <FlowPane.margin>
+            <Insets left="40.0" right="10.0" />
+         </FlowPane.margin></Button>
+      <TableView fx:id="tableView" prefHeight="250.0" prefWidth="560.0">
+        <columns>
+          <TableColumn fx:id="col1" prefWidth="75.0" text="Last Name" />
+          <TableColumn fx:id="col2" prefWidth="75.0" text="First Name" />
+        </columns>
+      </TableView>
+    </children>
+</FlowPane>
