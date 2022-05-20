@@ -3,23 +3,26 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.collections.FXCollections?>
-<FlowPane prefHeight="350.0" prefWidth="560.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.simpledbclient.DBController">
+<FlowPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.simpledbclient.DBController">
     <children>
-        <TextField fx:id="textField" prefHeight="100.0" prefWidth="416.0">
+        <TextField fx:id="textField" alignment="TOP_LEFT" onMouseDragEntered="#doLoad" prefHeight="130.0" prefWidth="546.0" promptText="Please enter a MySQL query command.">
             <FlowPane.margin>
                <Insets />
             </FlowPane.margin>
+         <font>
+            <Font size="20.0" />
+         </font>
         </TextField>
-        <Button fx:id="button" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onbuttonClick" text="Go">
+        <Button fx:id="button" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#doLoad" prefHeight="39.0" prefWidth="47.0" text="Go">
          <FlowPane.margin>
-            <Insets left="40.0" right="10.0" />
+            <Insets left="50.0" right="10.0" />
          </FlowPane.margin></Button>
-      <TableView fx:id="tableView" prefHeight="250.0" prefWidth="560.0">
+      <TableView fx:id="tableView" prefHeight="335.0" prefWidth="700.0">
         <columns>
-          <TableColumn fx:id="col1" prefWidth="75.0" text="Last Name" />
-          <TableColumn fx:id="col2" prefWidth="75.0" text="First Name" />
+          <TableColumn prefWidth="75.0" text="id" />
+          <TableColumn prefWidth="75.0" text="Data" />
         </columns>
       </TableView>
     </children>

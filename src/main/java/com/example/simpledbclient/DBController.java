@@ -1,44 +1,47 @@
 package com.example.simpledbclient;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.text.Text;
+import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-public class DBController implements Initializable {
-   /* @FXML
-    private Label welcomeText;
-
-    @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
-    }*/
+public class DBController {
 
     @FXML
     private TextField textField;
 
-    @FXML
-    private Button button;
+    @FXML // fx:id="tableView";
+    TableView<DBTable> tableView;
 
-    @FXML
-    private TableView tableView;
+    public void doLoad() {
 
-    @FXML
-    private TableColumn col1;
+        System.out.println(textField.getText());
 
-    @FXML
-    private TableColumn col2;
+        DBTable table = new DBTable();
+        table.command = textField.getText();
 
-    @FXML
-    protected void onbuttonClick() {
-        col1.setText("test");
-    }
+        ObservableList<DBTable> values = DBTable.getEmployees();
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+        TableColumn<DBTable, Integer> id = new TableColumn<>("ID");
+        id.setCellValueFactory(new PropertyValueFactory("id"));
+
+        TableColumn<DBTable,String> firstName = new TableColumn<>("First Name");
+        firstName.setCellValueFactory(new PropertyValueFactory("firstName"));
+
+        TableColumn<DBTable,String> lastName = new TableColumn<>("Last Name");
+        lastName.setCellValueFactory(new PropertyValueFactory("lastName"));
+
+        TableColumn<DBTable, String> birthDate = new TableColumn<>("Birthday Date");
+        birthDate.setCellValueFactory(new PropertyValueFactory("birthDate"));
+
+        TableColumn<DBTable,String> gender = new TableColumn<>("Gender");
+        gender.setCellValueFactory(new PropertyValueFactory("gender"));
+
+        TableColumn<DBTable,String> hireDate = new TableColumn<>("Hire Date");
+        hireDate.setCellValueFactory(new PropertyValueFactory("hireDate"));
+
+        tableView.getColumns().setAll(id, birthDate, firstName, lastName, gender, hireDate);
+        tableView.setItems(values);
 
     }
 }
