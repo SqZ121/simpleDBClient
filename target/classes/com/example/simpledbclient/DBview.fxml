@@ -15,7 +15,7 @@
             <Font size="20.0" />
          </font>
         </TextField>
-        <Button fx:id="button" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#doLoad" prefHeight="39.0" prefWidth="47.0" text="Go">
+        <Button contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#doLoad" prefHeight="39.0" prefWidth="47.0" text="Go">
          <FlowPane.margin>
             <Insets left="50.0" right="10.0" />
          </FlowPane.margin></Button>

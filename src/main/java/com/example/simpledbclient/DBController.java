@@ -1,47 +1,71 @@
 package com.example.simpledbclient;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class DBController {
 
     @FXML
     private TextField textField;
 
-    @FXML // fx:id="tableView";
-    TableView<DBTable> tableView;
+    @FXML
+    private TableView tableView;
 
     public void doLoad() {
+        tableView.getItems().clear();
+        tableView.getColumns().clear();
 
-        System.out.println(textField.getText());
+        try {
+            DBTable.dbConnection();
+            ResultSet rs = DBTable.stmt.executeQuery(textField.getText());
 
-        DBTable table = new DBTable();
-        table.command = textField.getText();
+            // get columns dynamically according to input query
+            for (int i = 0 ; i < rs.getMetaData().getColumnCount(); i++) {
+                final int j = i;
+                TableColumn col = new TableColumn(rs.getMetaData().getColumnName(i+1));
+                col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList,String>, ObservableValue<String>>(){
+                    public ObservableValue<String> call(TableColumn.CellDataFeatures<ObservableList, String> param) {
+                        return new SimpleStringProperty(param.getValue().get(j).toString());
+                    }
+                });
+                tableView.getColumns().add(col);
+            }
 
-        ObservableList<DBTable> values = DBTable.getEmployees();
+            ObservableList<ObservableList> res = FXCollections.observableArrayList();
+            while (rs != null && rs.next()) {
+                ObservableList<String> row = FXCollections.observableArrayList();
+                for (int i = 0; i < rs.getMetaData().getColumnCount(); i++) {
+                    row.add(rs.getString(i + 1));
+                }
+                res.add(row);
+            }
 
-        TableColumn<DBTable, Integer> id = new TableColumn<>("ID");
-        id.setCellValueFactory(new PropertyValueFactory("id"));
+            tableView.setItems(res);
 
-        TableColumn<DBTable,String> firstName = new TableColumn<>("First Name");
-        firstName.setCellValueFactory(new PropertyValueFactory("firstName"));
+        } catch (SQLException e) {
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setContentText("Your input is not a valid MySQL query command.");
+            error.show();
+            e.printStackTrace();
+        } finally {
+            if (DBTable.conn != null) {
+                try {
+                    DBTable.conn.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
-        TableColumn<DBTable,String> lastName = new TableColumn<>("Last Name");
-        lastName.setCellValueFactory(new PropertyValueFactory("lastName"));
-
-        TableColumn<DBTable, String> birthDate = new TableColumn<>("Birthday Date");
-        birthDate.setCellValueFactory(new PropertyValueFactory("birthDate"));
-
-        TableColumn<DBTable,String> gender = new TableColumn<>("Gender");
-        gender.setCellValueFactory(new PropertyValueFactory("gender"));
-
-        TableColumn<DBTable,String> hireDate = new TableColumn<>("Hire Date");
-        hireDate.setCellValueFactory(new PropertyValueFactory("hireDate"));
-
-        tableView.getColumns().setAll(id, birthDate, firstName, lastName, gender, hireDate);
-        tableView.setItems(values);
 
     }
 }
